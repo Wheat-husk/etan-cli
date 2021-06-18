@@ -1,0 +1,59 @@
+{
+  "name": "@etan/cli",
+  "version": "1.0.0",
+  "description": "electron typecript cli",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "etan": "bin/etan.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node bin/etan.ts",
+    "build:": "tsc",
+    "lint": "eslint \"{lib,bin}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:verbose": "jest --verbose",
+    "pretty-quick": "pretty-quick --staged",
+    "prettier": "prettier -c --write '**/*.ts'",
+    "prepare": "husky install",
+    "release": "release-it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wheat-husk/etan-cli.git"
+  },
+  "keywords": [
+    "electron",
+    "typescript",
+    "cli"
+  ],
+  "author": "AlanSean",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wheat-husk/etan-cli/issues"
+  },
+  "homepage": "https://github.com/Wheat-husk/etan-cli#readme",
+  "devDependencies": {
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
+    "@types/jest": "26.0.23",
+    "@types/node": "15.12.2",
+    "@typescript-eslint/eslint-plugin": "4.27.0",
+    "eslint": "7.28.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.23.4",
+    "husky": "6.0.0",
+    "jest": "27.0.4",
+    "prettier": "2.3.1",
+    "release-it": "14.9.0",
+    "ts-jest": "27.0.3",
+    "ts-node": "10.0.0",
+    "tslib": "2.3.0"
+  },
+  "dependencies": {
+    "typescript": "4.3.4"
+  }
+}
