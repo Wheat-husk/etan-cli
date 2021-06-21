@@ -1,18 +1,16 @@
-import * as fs from 'fs';
 import { join } from 'path';
 import { Configuration } from '../configuration';
-import { CLI_ERRORS } from '../ui/error';
 
-export class ReadFile {
+export class JsonFileReader {
   constructor(readonly root: string) {}
-  load(fileName: string): Configuration {
-    const filepath = join(this.root, fileName);
-    if (!fs.existsSync(filepath))
-      throw new Error(CLI_ERRORS.CONFIG_FILE(fileName));
-    try {
-      return require(filepath);
-    } catch (error) {
-      throw new Error(error);
-    }
+  async read(fileName: string): Promise<Configuration | undefined> {
+    return new Promise((resolve, reject) => {
+      try {
+        const filepath = join(this.root, fileName);
+        resolve(require(filepath));
+      } catch (error) {
+        resolve(undefined);
+      }
+    });
   }
 }

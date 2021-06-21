@@ -1,0 +1,6 @@
+{
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "tsConfigPath": "tsconfig.json",
+  "projects": {}
+}
