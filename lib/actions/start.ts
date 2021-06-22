@@ -3,21 +3,17 @@ import { spawn } from 'child_process';
 import { BuildAction } from './build';
 
 export class StartAction extends BuildAction {
-  protected spawnChildProcess(
-    outputFilePath: string,
-    debug?: boolean | string,
-  ) {
-    const processArgs = [String(outputFilePath)];
+  protected spawnChildProcess(debug?: boolean | string) {
+    const processArgs = ['electron', '', '.', '--serve'];
 
     //chrome://inspect/#devices
     //https://nodejs.org/en/docs/guides/debugging-getting-started/
     if (debug) {
       const inspectFlag =
         typeof debug === 'string' ? `--inspect=${debug}` : '--inspect';
-      processArgs.unshift(inspectFlag);
+      processArgs.splice(1, 0, inspectFlag);
     }
-
-    return spawn('npx', ['electron', '.', '--serve'], {
+    return spawn('npx', processArgs, {
       stdio: 'inherit',
       shell: true,
     });
