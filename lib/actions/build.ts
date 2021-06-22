@@ -1,4 +1,5 @@
 import { ChildProcess, spawn } from 'child_process';
+import * as killProcess from 'tree-kill';
 import { join } from 'path';
 import { Options } from '../commands';
 import { TypeScriptBinaryLoader } from '../compiler/typescript-loader';
@@ -7,9 +8,11 @@ import { ConfigurationLoder } from '../configuration';
 import { JsonFileReader } from '../readFile';
 import { CLI_ERRORS } from '../ui/error';
 import { AbstractAction } from './abstract.action';
+import { ProcessKillLoader } from '../KillProcess';
 
 export class BuildAction extends AbstractAction {
   readonly root = process.cwd();
+  readonly killLoader = new ProcessKillLoader();
   readonly tsLoader = new TypeScriptBinaryLoader();
   readonly readFile = new JsonFileReader(this.root);
   readonly configLoader = new ConfigurationLoder(this.readFile);
@@ -28,29 +31,41 @@ export class BuildAction extends AbstractAction {
     if (!tsConfigpath) {
       throw new Error(CLI_ERRORS.MISSING_TYPESCRIPT(tsConfigPath));
     }
-    const { options: tsOptions } = tsBinary.getParsedCommandLineOfConfigFile(
-      tsConfigpath,
-      undefined!,
-      tsBinary.sys as unknown as any,
-    )!;
-    const onSuccess = this.hooks(
-      join(tsOptions.outDir!, `${entryFile}.js`),
-      debug,
-    );
+    // const { options: tsOptions } = tsBinary.getParsedCommandLineOfConfigFile(
+    //   tsConfigpath,
+    //   undefined!,
+    //   (tsBinary.sys as unknown) as any
+    // )!;
+    const onSuccess = this.hooks(debug);
 
     await this.runComplier(tsConfigpath, onSuccess);
   }
 
-  protected hooks(outputFilePath: string, debug?: boolean | string) {
+  protected hooks(debug?: boolean | string) {
+    let electronProcess: any | ChildProcess | undefined;
+
+    process.on('exit', () => electronProcess && electronProcess.kill('SIGINT'));
+
     return () => {
-      this.spawnChildProcess(outputFilePath, debug);
+      if (electronProcess) {
+        electronProcess.on('exit', () => {
+          electronProcess = this.spawnChildProcess(debug);
+          electronProcess.on('exit', () => {
+            electronProcess = undefined;
+          });
+        });
+        this.killLoader.kill(electronProcess.pid);
+      } else {
+        electronProcess = this.spawnChildProcess(debug);
+        electronProcess.on('exit', (code: any) => {
+          console.log('子进程退出:', code);
+          electronProcess = undefined;
+        });
+      }
     };
   }
 
-  protected spawnChildProcess(
-    outputFilePath: string,
-    debug?: boolean | string,
-  ): ChildProcess;
+  protected spawnChildProcess(debug?: boolean | string): ChildProcess;
 
   protected spawnChildProcess() {
     return spawn('npx', ['electron-builder', 'build'], {
