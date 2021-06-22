@@ -6,11 +6,11 @@
     "access": "public"
   },
   "bin": {
-    "etan": "bin/etan.ts"
+    "etan": "bin/etan.js"
   },
-  "main": "dist/index.js",
   "scripts": {
     "start": "ts-node bin/etan.ts",
+    "start:watch": "tsc --watch",
     "build:": "tsc",
     "lint": "eslint \"{lib,bin}/**/*.ts\" --fix",
     "test": "jest",
