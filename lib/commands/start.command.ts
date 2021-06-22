@@ -17,14 +17,15 @@ export class StartCommand extends AbstractCommand {
         'Use "preserveWatchOutput" option when tsc watch mode.',
       )
       .description('Run electron application.')
-      .action(async (command: Command) => {
-        const commandOptions = command.opts();
+      .action(async (command) => {
+        console.log(command);
+        // const commandOptions = command.opts();
 
         const options: Options = {
-          config: commandOptions.config,
-          watch: commandOptions.watch,
-          debug: commandOptions.debug,
-          preserveWatchOutput: commandOptions.preserveWatchOutput,
+          config: command.config,
+          watch: command.watch,
+          debug: command.debug,
+          preserveWatchOutput: command.preserveWatchOutput,
         };
 
         await this.action.handle(options);
