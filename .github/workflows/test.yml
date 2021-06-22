@@ -39,7 +39,7 @@ jobs:
       - name: Check lint
         run: npm run lint
 
-      # - name: Run headless unit test
-      #   with:
-      #     run: npm run test
+      - name: Run headless unit test
+        with:
+          run: npm run test
             
