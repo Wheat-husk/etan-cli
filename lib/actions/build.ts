@@ -1,53 +1,27 @@
 import { ChildProcess, spawn } from 'child_process';
-import * as killProcess from 'tree-kill';
-import { join } from 'path';
 import { Options } from '../commands';
-import { TypeScriptBinaryLoader } from '../compiler/typescript-loader';
-import { WatchComplier } from '../compiler/watch-compiler';
-import { ConfigurationLoder } from '../configuration';
-import { JsonFileReader } from '../readFile';
 import { CLI_ERRORS } from '../ui/error';
 import { AbstractAction } from './abstract.action';
-import { ProcessKillLoader } from '../KillProcess';
+import { CompilerOptions } from 'typescript';
 
 export class BuildAction extends AbstractAction {
-  readonly root = process.cwd();
-  readonly killLoader = new ProcessKillLoader();
-  readonly tsLoader = new TypeScriptBinaryLoader();
-  readonly readFile = new JsonFileReader(this.root);
-  readonly configLoader = new ConfigurationLoder(this.readFile);
-  readonly watchComplier = new WatchComplier(this.tsLoader);
   public async handle(options: Options) {
-    const tsBinary = this.tsLoader.load();
+    const onSuccess = this.hooks(options.debug);
 
-    const { watch, debug, preserveWatchOutput, config } = options;
-    const { entryFile, tsConfigPath } = await this.configLoader.load(config);
-
-    const tsConfigpath = tsBinary.findConfigFile(
-      this.root,
-      tsBinary.sys.fileExists,
-      tsConfigPath,
-    )!;
-    if (!tsConfigpath) {
-      throw new Error(CLI_ERRORS.MISSING_TYPESCRIPT(tsConfigPath));
-    }
-    // const { options: tsOptions } = tsBinary.getParsedCommandLineOfConfigFile(
-    //   tsConfigpath,
-    //   undefined!,
-    //   (tsBinary.sys as unknown) as any
-    // )!;
-    const onSuccess = this.hooks(debug);
-
-    await this.runComplier(tsConfigpath, onSuccess);
+    await this.runComplier(options, onSuccess);
   }
 
   protected hooks(debug?: boolean | string) {
     let electronProcess: any | ChildProcess | undefined;
 
-    process.on('exit', () => electronProcess && electronProcess.kill('SIGINT'));
+    process.on(
+      'exit',
+      () => electronProcess && this.killLoader.kill(electronProcess.pid),
+    );
 
     return () => {
       if (electronProcess) {
+        electronProcess.removeAllListeners('exit');
         electronProcess.on('exit', () => {
           electronProcess = this.spawnChildProcess(debug);
           electronProcess.on('exit', () => {
@@ -57,10 +31,6 @@ export class BuildAction extends AbstractAction {
         this.killLoader.kill(electronProcess.pid);
       } else {
         electronProcess = this.spawnChildProcess(debug);
-        electronProcess.on('exit', (code: any) => {
-          console.log('子进程退出:', code);
-          electronProcess = undefined;
-        });
       }
     };
   }
@@ -74,7 +44,32 @@ export class BuildAction extends AbstractAction {
     });
   }
 
-  public async runComplier(tsConfigPath: string, onSuccess?: () => void) {
-    return this.watchComplier.run(tsConfigPath, onSuccess);
+  public async runComplier(options: Options, onSuccess?: () => void) {
+    const tsBinary = this.tsLoader.load();
+
+    const { watch, preserveWatchOutput, config } = options;
+
+    const { tsConfigPath } = await this.configLoader.load(config);
+
+    const tsConfigRootPath = tsBinary.findConfigFile(
+      this.root,
+      tsBinary.sys.fileExists,
+      tsConfigPath,
+    )!;
+
+    const optionsToExtend: CompilerOptions = {};
+
+    if (!tsConfigRootPath) {
+      throw new Error(CLI_ERRORS.MISSING_TYPESCRIPT(tsConfigRootPath));
+    }
+
+    if (watch) {
+      if (preserveWatchOutput) {
+        optionsToExtend.optionsToExtend = true;
+      }
+      this.watchComplier.run(tsConfigRootPath, optionsToExtend, onSuccess);
+    } else {
+      this.compiler.run(tsConfigRootPath, optionsToExtend, onSuccess);
+    }
   }
 }
