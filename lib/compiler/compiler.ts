@@ -1,6 +1,9 @@
 /*https://github.com/microsoft/TypeScript/blob/main/tests/cases/compiler/APISample_compile.ts*/
-import { connected } from 'process';
-import { CompilerOptions, Diagnostic, ParseConfigFileHost } from 'typescript';
+import {
+  CompilerOptions,
+  FormatDiagnosticsHost,
+  ParseConfigFileHost,
+} from 'typescript';
 import { AbstraCompiler } from './abstract.compiler';
 
 export class Compiler extends AbstraCompiler {
@@ -10,36 +13,65 @@ export class Compiler extends AbstraCompiler {
     onSuccess?: () => void,
   ) {
     const tsBin = this.tsLoader.load();
-    // const {config} = tsBin.readConfigFile(tsConfigPath,tsBin.sys.readFile);
-    const parsedCommandLine = tsBin.getParsedCommandLineOfConfigFile(
+    //executeCommandLine
+    //https://github.com/microsoft/TypeScript/blob/main/src/executeCommandLine/executeCommandLine.ts#L608
+
+    //executeCommandLineWorker
+    //https://github.com/microsoft/TypeScript/blob/main/src/executeCommandLine/executeCommandLine.ts#L420
+
+    //parseConfigFileWithSystem
+    //https://github.com/microsoft/TypeScript/blob/main/src/compiler/watch.ts#L92
+
+    const ParseConfigFileHost: ParseConfigFileHost = tsBin.sys as any;
+    ParseConfigFileHost.onUnRecoverableConfigFileDiagnostic = undefined!;
+    const config = tsBin.getParsedCommandLineOfConfigFile(
       tsConfigPath,
       optionsToExtend,
-      {
-        useCaseSensitiveFileNames: true,
-        getCurrentDirectory: tsBin.sys.getCurrentDirectory,
-        readDirectory: tsBin.sys.readDirectory,
-        fileExists: tsBin.sys.fileExists,
-        readFile: tsBin.sys.readFile,
-        // 在解析配置文件时报告不可恢复的错误
-        // Reports unrecoverable error when parsing config file
-        onUnRecoverableConfigFileDiagnostic: () => void 0,
-      },
+      ParseConfigFileHost,
     );
-    // const host = tsBin.createCompilerHost(config);
-    // host.create
-    // console.log(host)
-    // host.getParsedCommandLine(tsConfigPath);
+    if (config) {
+      const host = tsBin.createIncrementalCompilerHost(
+        config.options,
+        tsBin.sys,
+      );
 
-    // const origPostProgramCreate = host.afterProgramCreate;
+      const { fileNames, projectReferences, options } = config;
+      //options.incremental || options.composite
+      // tsBin.createIncrementalProgram({
+      //   host,
+      //   rootNames: config.fileNames,
+      //   options: config.options,
+      // });
+      //createIncrementalProgram
 
-    // host.afterProgramCreate = (program) => {
-    //   console.log('** We finished making the program! **');
-    //   origPostProgramCreate!(program);
-    //   onSuccess && onSuccess();
-    // };
-    if (parsedCommandLine) {
-      // `createWatchProgram` creates an initial program, watches files, and updates the program over time.
-      tsBin.createProgram(parsedCommandLine.fileNames, optionsToExtend);
+      //
+      const program = tsBin.createProgram({
+        host,
+        rootNames: fileNames,
+        projectReferences,
+        options,
+      });
+
+      const { diagnostics } = program.emit();
+
+      const allDiagnostics = program.getConfigFileParsingDiagnostics().slice();
+      const formatHost: FormatDiagnosticsHost = {
+        getCurrentDirectory: () => tsBin.sys.getCurrentDirectory(),
+        getNewLine: () => tsBin.sys.newLine,
+        getCanonicalFileName: (path) => path,
+      };
+      allDiagnostics.push(...diagnostics);
+      allDiagnostics.forEach((diagnostic) => {
+        tsBin.sys.write(
+          tsBin.formatDiagnosticsWithColorAndContext([diagnostic], formatHost) +
+            formatHost.getNewLine(),
+        );
+      });
+      if (allDiagnostics.length == 0) {
+        onSuccess && onSuccess();
+      } else {
+        process.exit(0);
+      }
     }
   }
 }
