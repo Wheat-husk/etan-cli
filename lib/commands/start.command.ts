@@ -1,4 +1,4 @@
-import { Command, CommanderStatic } from 'commander';
+import { CommanderStatic } from 'commander';
 import { AbstractCommand } from './abstract.command';
 import { Options } from './constant';
 //https://github.com/tj/commander.js/blob/HEAD/Readme_zh-CN.md
@@ -18,9 +18,6 @@ export class StartCommand extends AbstractCommand {
       )
       .description('Run electron application.')
       .action(async (command) => {
-        console.log(command);
-        // const commandOptions = command.opts();
-
         const options: Options = {
           config: command.config,
           watch: command.watch,

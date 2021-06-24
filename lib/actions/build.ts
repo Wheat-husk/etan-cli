@@ -55,12 +55,12 @@ export class BuildAction extends AbstractAction {
       this.root,
       tsBinary.sys.fileExists,
       tsConfigPath,
-    )!;
+    );
 
     const optionsToExtend: CompilerOptions = {};
 
     if (!tsConfigRootPath) {
-      throw new Error(CLI_ERRORS.MISSING_TYPESCRIPT(tsConfigRootPath));
+      throw new Error(CLI_ERRORS.MISSING_TYPESCRIPT(tsConfigPath));
     }
 
     if (watch) {

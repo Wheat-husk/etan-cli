@@ -13,8 +13,6 @@ export class TypeScriptBinaryLoader {
       const tsBinaryPath = require.resolve('typescript', {
         paths: this.getModulePaths(),
       });
-      console.log(this.getModulePaths());
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const tsBinary = require(tsBinaryPath);
       this.tsBinary = tsBinary;
       return tsBinary;
