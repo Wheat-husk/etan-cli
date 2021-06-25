@@ -7,16 +7,19 @@ import { CommanderStatic } from 'commander';
 
 import { CommandLoader } from '../lib/commands';
 
-function bootstrap(){
+function bootstrap() {
   const program: CommanderStatic = commander;
   program
     .version(
       require('../package.json').version,
       '-v, --version',
-      '(v) Outputs Etan CLI version.'
+      'Outputs Etan CLI version.',
     )
     .usage('<command> [options]')
-    .helpOption('-h ,--help','(h) Lists available commands and their short descriptions.');
+    .helpOption(
+      '-h, --help',
+      'Lists available commands and their short descriptions.',
+    );
 
   CommandLoader.load(program);
 
@@ -24,6 +27,6 @@ function bootstrap(){
   if (!process.argv.slice(2).length) {
     program.outputHelp();
   }
-};
+}
 
 bootstrap();

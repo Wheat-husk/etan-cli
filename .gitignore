@@ -5,7 +5,6 @@ node_modules/
 *.map
 
 # output
-bin/**/*.js
 lib/**/*.js
 bin/**/*.d.ts
 lib/**/*.d.ts
