@@ -1,4 +1,3 @@
-//nest-cli
 import * as ts from 'typescript';
 
 export class TypeScriptBinaryLoader {

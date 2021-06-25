@@ -1,4 +1,4 @@
-import { TypeScriptBinaryLoader } from './typescript-loader';
+import { TypeScriptBinaryLoader } from '../binary';
 import { CompilerOptions } from 'typescript';
 
 export abstract class AbstraCompiler {
