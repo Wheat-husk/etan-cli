@@ -13,7 +13,7 @@ export class StartCommand extends AbstractCommand {
         'Run in debug mode (with --inspect flag).',
       )
       .option(
-        '--preserveWatchOutput',
+        '-p, --preserveWatchOutput',
         'Use "preserveWatchOutput" option when tsc watch mode.',
       )
       .description('Run electron application.')
