@@ -12,7 +12,7 @@ export class BuildCommand extends AbstractCommand {
       )
       .option(
         '-l, --linux [targetList...]',
-        'Build for Linux, accepts target list (see https://goo.gl/',
+        'Build for Linux, accepts target list (see https://goo.gl/4vwQad)',
       )
       .option(
         '-w, --windows [targetList...]',

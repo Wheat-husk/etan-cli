@@ -1,8 +1,10 @@
 import { AbstractAction } from './abstract.action';
 import * as os from 'os';
 import * as chalk from 'chalk';
+import { GlobalCliLoader } from '../cli/cli.loader';
 
 export class InfoAction extends AbstractAction {
+  readonly globalCli = new GlobalCliLoader();
   readonly node = this.globalCli.load('node');
   readonly npm = this.globalCli.load('npm');
   readonly yarn = this.globalCli.load('yarn');
