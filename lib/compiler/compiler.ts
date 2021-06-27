@@ -4,7 +4,6 @@ import {
   BuilderProgram,
   CompilerOptions,
   ExitStatus,
-  ParseConfigFileHost,
   Program,
   ProjectReference,
 } from 'typescript';
@@ -18,22 +17,12 @@ export class Compiler extends AbstraCompiler {
     onSuccess?: () => void,
   ) {
     const reportDiagnostic = this.reportDiagnostic;
-    //executeCommandLine
-    //https://github.com/microsoft/TypeScript/blob/main/src/executeCommandLine/executeCommandLine.ts#L608
 
-    //executeCommandLineWorker
-    //https://github.com/microsoft/TypeScript/blob/main/src/executeCommandLine/executeCommandLine.ts#L420
-
-    //parseConfigFileWithSystem
-    //https://github.com/microsoft/TypeScript/blob/main/src/compiler/watch.ts#L92
-
-    const ParseConfigFileHost: ParseConfigFileHost = this.binary.sys as any;
-    ParseConfigFileHost.onUnRecoverableConfigFileDiagnostic = undefined!;
-    const config = this.binary.getParsedCommandLineOfConfigFile(
+    const config = this.tsLoader.getParsedCommandLine(
       tsConfigPath,
       optionsToExtend,
-      ParseConfigFileHost,
     );
+
     if (config) {
       const { fileNames, projectReferences, options } = config;
       let exitStatus;
