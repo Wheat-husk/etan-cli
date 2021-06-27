@@ -11,39 +11,6 @@ export class BuildAction extends AbstractAction {
     await this.runComplier(options, onSuccess);
   }
 
-  protected hooks(debug?: boolean | string) {
-    let electronProcess: any | ChildProcess | undefined;
-
-    process.on(
-      'exit',
-      () => electronProcess && this.killLoader.kill(electronProcess.pid),
-    );
-
-    return () => {
-      if (electronProcess) {
-        electronProcess.removeAllListeners('exit');
-        electronProcess.on('exit', () => {
-          electronProcess = this.spawnChildProcess(debug);
-          electronProcess.on('exit', () => {
-            electronProcess = undefined;
-          });
-        });
-        this.killLoader.kill(electronProcess.pid);
-      } else {
-        electronProcess = this.spawnChildProcess(debug);
-      }
-    };
-  }
-
-  protected spawnChildProcess(debug?: boolean | string): ChildProcess;
-
-  protected spawnChildProcess() {
-    return spawn('npx', ['electron-builder', 'build'], {
-      stdio: 'inherit',
-      shell: true,
-    });
-  }
-
   public async runComplier(options: Options, onSuccess?: () => void) {
     const tsBinary = this.tsLoader.load();
 
@@ -71,5 +38,38 @@ export class BuildAction extends AbstractAction {
     } else {
       this.compiler.run(tsConfigRootPath, optionsToExtend, onSuccess);
     }
+  }
+
+  protected hooks(debug?: boolean | string) {
+    let electronProcess: any | ChildProcess | undefined;
+
+    process.on(
+      'exit',
+      () => electronProcess && this.killLoader.kill(electronProcess.pid),
+    );
+
+    return () => {
+      if (electronProcess) {
+        electronProcess.removeAllListeners('exit');
+        electronProcess.on('exit', () => {
+          electronProcess = this.spawnChildProcess(debug);
+          electronProcess.on('exit', () => {
+            electronProcess = undefined;
+          });
+        });
+        this.killLoader.kill(electronProcess.pid);
+      } else {
+        electronProcess = this.spawnChildProcess(debug);
+      }
+    };
+  }
+
+  protected spawnChildProcess(debug?: boolean | string): ChildProcess;
+
+  protected spawnChildProcess() {
+    return spawn('electron-builder', ['build', ...process.argv.slice(3)], {
+      stdio: 'inherit',
+      shell: true,
+    });
   }
 }

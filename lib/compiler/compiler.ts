@@ -56,10 +56,8 @@ export class Compiler extends AbstraCompiler {
           reportDiagnostic,
         );
       }
-
       !exitStatus && onSuccess && onSuccess();
-      this.binary.sys.exit(exitStatus);
-      this.binary.isBundle;
+      process.exit(exitStatus);
     }
   }
 
@@ -96,23 +94,23 @@ export class Compiler extends AbstraCompiler {
     return this.programEmit(program, reportDiagnostic);
   }
 
-  programEmit<T extends BuilderProgram>(
-    program: Program | T,
+  //https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API#a-minimal-compiler
+  programEmit(
+    program: Program | BuilderProgram,
     reportDiagnostic: ReportDiagnostic,
   ) {
-    const { diagnostics } = program.emit(undefined);
-    const allDiagnostics = program
-      .getConfigFileParsingDiagnostics()
-      .slice()
-      .concat(diagnostics);
+    const allDiagnostics = this.binary
+      .getPreEmitDiagnostics(program as Program)
+      .slice();
     if (allDiagnostics.length > 0) {
       reportDiagnostic(allDiagnostics);
       return ExitStatus.DiagnosticsPresent_OutputsGenerated;
     } else {
+      program.emit();
       return ExitStatus.Success;
     }
   }
-  performCompilation() {}
+
   createDiagnosticReporter(system: System): ReportDiagnostic {
     const formatHost: FormatDiagnosticsHost = {
       getCurrentDirectory: () => system.getCurrentDirectory(),
@@ -120,13 +118,12 @@ export class Compiler extends AbstraCompiler {
       getCanonicalFileName: (path) => path,
     };
     return (diagnostics) => {
-      const a = this.binary.formatDiagnosticsWithColorAndContext(
-        diagnostics,
-        formatHost,
+      system.write(
+        this.binary.formatDiagnosticsWithColorAndContext(
+          diagnostics,
+          formatHost,
+        ) + formatHost.getNewLine(),
       );
-
-      console.log(a, 111111111);
-      // system.write(this.binary.formatDiagnosticsWithColorAndContext(diagnostics, formatHost) + formatHost.getNewLine());
     };
   }
 }

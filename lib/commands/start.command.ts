@@ -1,6 +1,5 @@
 import { CommanderStatic } from 'commander';
 import { AbstractCommand } from './abstract.command';
-import { Options } from './constant';
 //https://github.com/tj/commander.js/blob/HEAD/Readme_zh-CN.md
 export class StartCommand extends AbstractCommand {
   public load(program: CommanderStatic) {
@@ -18,14 +17,7 @@ export class StartCommand extends AbstractCommand {
       )
       .description('Run electron application.')
       .action(async (command) => {
-        const options: Options = {
-          config: command.config,
-          watch: command.watch,
-          debug: command.debug,
-          preserveWatchOutput: command.preserveWatchOutput,
-        };
-
-        await this.action.handle(options);
+        await this.action.handle(command);
       });
   }
 }
