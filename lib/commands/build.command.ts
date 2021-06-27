@@ -1,6 +1,5 @@
 import { CommanderStatic } from 'commander';
 import { AbstractCommand } from './abstract.command';
-import { Options } from './constant';
 //https://github.com/tj/commander.js/blob/HEAD/Readme_zh-CN.md
 export class BuildCommand extends AbstractCommand {
   public load(program: CommanderStatic) {
