@@ -5,9 +5,8 @@ import { Options } from './constant';
 export class BuildCommand extends AbstractCommand {
   public load(program: CommanderStatic) {
     program
-      // .command('build')
       .command('build')
-      .usage('<command> [options]')
+      // .option('-s, --skip','Skip the compilation typescript')
       .option(
         '-m, --mac [targetList...]',
         'Build for macOS, accepts target list (see https://goo.gl/5uHuzj)',
