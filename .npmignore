@@ -1,0 +1,29 @@
+.idea/
+.gitignore
+.prettierrc
+.editorconfig
+.eslintrc.js
+.eslintignore
+.travis.yml
+.husky/
+.github/
+docs/
+test/
+node_modules/
+jest.config.js
+commitlint.config.js
+
+# source
+**/*.ts
+*.ts
+
+
+# definitions
+!**/*.d.ts
+!*.d.ts
+
+# configuration
+.release-it.json
+tsconfig.json
+package-lock.json
+
