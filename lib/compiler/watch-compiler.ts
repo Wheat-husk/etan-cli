@@ -1,4 +1,5 @@
 /*https://github.com/microsoft/TypeScript/blob/main/tests/cases/compiler/APISample_WatchWithDefaults.ts*/
+//https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API#writing-an-incremental-program-watcher
 import { CompilerOptions } from 'typescript';
 import { AbstraCompiler } from './abstract.compiler';
 
@@ -9,11 +10,16 @@ export class WatchComplier extends AbstraCompiler {
     onSuccess?: () => void,
   ) {
     const tsBin = this.tsLoader.load();
-
+    //  * ts.createEmitAndSemanticDiagnosticsBuilderProgram,
+    //  * ts.createSemanticDiagnosticsBuilderProgram
+    //  * ts.createAbstractBuilder
+    const createProgram = tsBin.createEmitAndSemanticDiagnosticsBuilderProgram;
     const host = tsBin.createWatchCompilerHost(
       tsConfigPath,
       optionsToExtend,
       tsBin.sys,
+      createProgram,
+      this.reportDiagnostic,
     );
     const origCreateProgram = host.createProgram;
 

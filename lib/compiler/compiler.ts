@@ -1,27 +1,23 @@
 /*https://github.com/microsoft/TypeScript/blob/main/tests/cases/compiler/APISample_compile.ts*/
+import chalk = require('chalk');
 import {
   BuilderProgram,
   CompilerOptions,
-  Diagnostic,
   ExitStatus,
-  FormatDiagnosticsHost,
   ParseConfigFileHost,
   Program,
   ProjectReference,
-  System,
 } from 'typescript';
+import { ReportDiagnostic } from '../ui/Diagnostic';
 import { AbstraCompiler } from './abstract.compiler';
 
-type ReportDiagnostic = (diagnostic: readonly Diagnostic[]) => void;
-
 export class Compiler extends AbstraCompiler {
-  readonly binary = this.tsLoader.load();
   public run(
     tsConfigPath: string,
     optionsToExtend: CompilerOptions = {},
     onSuccess?: () => void,
   ) {
-    const reportDiagnostic = this.createDiagnosticReporter(this.binary.sys);
+    const reportDiagnostic = this.reportDiagnostic;
     //executeCommandLine
     //https://github.com/microsoft/TypeScript/blob/main/src/executeCommandLine/executeCommandLine.ts#L608
 
@@ -57,7 +53,7 @@ export class Compiler extends AbstraCompiler {
         );
       }
       !exitStatus && onSuccess && onSuccess();
-      process.exit(exitStatus);
+      // process.exit(exitStatus);
     }
   }
 
@@ -69,6 +65,9 @@ export class Compiler extends AbstraCompiler {
   ) {
     const binary = this.binary;
     const host = binary.createIncrementalCompilerHost(options, binary.sys);
+    console.info(
+      chalk.blue('Starting create incremental compiler program....'),
+    );
     const program = binary.createIncrementalProgram({
       host,
       rootNames,
@@ -84,8 +83,9 @@ export class Compiler extends AbstraCompiler {
     reportDiagnostic: ReportDiagnostic,
   ) {
     const binary = this.binary;
-    const host = binary.createIncrementalCompilerHost(options, binary.sys);
-    const program = binary.createIncrementalProgram({
+    const host = binary.createCompilerHost(options);
+    console.info(chalk.blue('Starting create compiler program...'));
+    const program = binary.createProgram({
       host,
       rootNames,
       projectReferences,
@@ -103,27 +103,12 @@ export class Compiler extends AbstraCompiler {
       .getPreEmitDiagnostics(program as Program)
       .slice();
     if (allDiagnostics.length > 0) {
-      reportDiagnostic(allDiagnostics);
+      allDiagnostics.forEach(reportDiagnostic);
       return ExitStatus.DiagnosticsPresent_OutputsGenerated;
     } else {
       program.emit();
+      console.log(chalk.blue('Finished compilation!'));
       return ExitStatus.Success;
     }
-  }
-
-  createDiagnosticReporter(system: System): ReportDiagnostic {
-    const formatHost: FormatDiagnosticsHost = {
-      getCurrentDirectory: () => system.getCurrentDirectory(),
-      getNewLine: () => system.newLine,
-      getCanonicalFileName: (path) => path,
-    };
-    return (diagnostics) => {
-      system.write(
-        this.binary.formatDiagnosticsWithColorAndContext(
-          diagnostics,
-          formatHost,
-        ) + formatHost.getNewLine(),
-      );
-    };
   }
 }
