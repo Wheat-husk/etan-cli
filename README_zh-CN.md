@@ -15,7 +15,7 @@ $ npm install -D @etan/cli
 
 运行` etan <command>——help `查看命令特定的选项。
 
-每个命令的详细描述请参见[usage](./docs/en_US/overview.md)。
+每个命令的详细描述请参见[usage](./docs/zh_CN/overview.md)。
 
 ```bash
 $ etan start
