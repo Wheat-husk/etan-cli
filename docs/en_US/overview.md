@@ -6,7 +6,7 @@ The `Etan Cli` is a command-line interface tool that helps you initialize, devel
 
 
 ```bash
-$ npm install -D @etan/cli
+$ npm install -D @etanjs/cli
 ```
 
 #### Basic workflow

@@ -28,7 +28,8 @@
   "keywords": [
     "electron",
     "typescript",
-    "cli"
+    "cli",
+    "electron-builder"
   ],
   "author": "AlanSean",
   "license": "ISC",
@@ -59,5 +60,10 @@
     "chalk": "4.1.1",
     "commander": "7.2.0",
     "typescript": "4.3.4"
+  },
+  "main": "bin/etan.js",
+  "directories": {
+    "lib": "lib",
+    "bin": "bin"
   }
 }

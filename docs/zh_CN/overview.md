@@ -6,7 +6,7 @@ ETAN CLI是一个命令行界面工具，可以帮助您初始化、开发和维
 
 
 ```bash
-$ npm install -D @etan/cli
+$ npm install -D @etanjs/cli
 ```
 
 #### Basic workflow
