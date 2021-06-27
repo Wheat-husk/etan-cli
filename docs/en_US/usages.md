@@ -13,9 +13,9 @@ $ etan start [options]
 | Option                     | Description                                            
 | ---------------------------| -------------------------------------------------------------------- 
 | `--config [path]`          | Path to `etan-cli` configuration file. <br/>Alias `-c`                 
-| `--watch`                  | Run in watch electron main progress reload. <br/>Alias `-w`        
+| `--watch`                  | Run it in watch mode and reload the 'Electron' program after compilation <br/>Alias `-w`        
 | `--debug [hostport]`       | Run in debug mode (with --inspect flag)                                     
-| `--preserveWatchOutput`    | Use "preserveWatchOutput" option when tsc watch mode.                               
+| `--preserveWatchOutput`    | Keep the outdated console output in watch mode.                              
 
 
 #### etan build

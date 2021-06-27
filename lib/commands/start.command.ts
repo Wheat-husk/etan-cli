@@ -6,14 +6,17 @@ export class StartCommand extends AbstractCommand {
     program
       .command('start')
       .option('-c, --config [path]', 'Path to etan-cli config file.')
-      .option('-w, --watch', 'Run in watch electron main progress reload.')
+      .option(
+        '-w, --watch',
+        'Run it in watch mode and reload the Electron program after compilation ',
+      )
       .option(
         '-d, --debug [hostport] ',
         'Run in debug mode (with --inspect flag).',
       )
       .option(
         '-p, --preserveWatchOutput',
-        'Use "preserveWatchOutput" option when tsc watch mode.',
+        'Keep the outdated console output in watch mode.',
       )
       .description('Run electron application.')
       .action(async (command) => {
