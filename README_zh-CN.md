@@ -7,10 +7,19 @@ Etan CLI是一个命令行界面工具，可以帮助您初始化、开发和维
 
 ## 安装
 
+```bash
+$ npm install -D @etan/cli
+```
 
+## 命令概述
 
-## 使用
+运行` etan <command>——help `查看命令特定的选项。
 
+每个命令的详细描述请参见[usage](./docs/en_US/overview.md)。
+
+```bash
+$ etan start
+```
 
 ## 参考
 
@@ -27,4 +36,4 @@ Etan CLI是一个命令行界面工具，可以帮助您初始化、开发和维
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Etan is [MIT licensed](LICENSE).
