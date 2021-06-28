@@ -12,7 +12,7 @@ $ etan start [options]
 
 | Option                     | Description                                            
 | ---------------------------| -------------------------------------------------------------------- 
-| `--config [path]`          | Path to `etan-cli` configuration file. <br/>Alias `-c`                 
+| `--config [path]`          | Path to `etan-cli.json(default)` configuration file. <br/>Alias `-c`                 
 | `--watch`                  | Run it in watch mode and reload the 'Electron' program after compilation <br/>Alias `-w`        
 | `--debug [hostport]`       | Run in debug mode (with --inspect flag)                                     
 | `--preserveWatchOutput`    | Keep the outdated console output in watch mode.                              

@@ -39,6 +39,11 @@ Run `etan <command> --help` to see the command-specific options
 
 #### CLI properties
 
+There are two CLI configuration files.
+
+1. ：`etan-cli.json` is the default configuration file, mainly used to compile TypeScript and start the Electron function.
+
+2. `electron-builder.json (.yml or.json5)` is the default configuration file for [`electron-builder`](https://www.electron.build/), which is mainly used to package electron. Details see https://www.electron.build/configuration/configuration#configuration( it will be merged into `etan-cli.json` in the future, although it's not clear when that will happen.)
 
 ```
 {

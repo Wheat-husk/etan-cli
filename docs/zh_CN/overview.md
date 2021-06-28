@@ -39,8 +39,14 @@ $ etan start --help
 
 #### CLI properties
 
+Cli 配置文件有2个。
+
+1. `etan-cli.json` 是默认配置文件，主要是用作编译typescript 和启动electron功能.
+
+2. `electron-builder.json(.yml 或者 .json5)` 是`electron-builder`默认配置文件，主要是用来打包electron. 详情查看 https://www.electron.build/configuration/configuration#configuration(未来会合并到etan-cli.json中，虽然不知何时会到来.)
 
 ```
+//etan-cli.json(default)
 {
   "sourceRoot": "src",
   "entryFile": "main",
