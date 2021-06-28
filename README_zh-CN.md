@@ -33,6 +33,9 @@ $ etan start
 
 [AngularCli](https://github.com/angular/angular-cli)
 
+## Praxis
+
+[image_compress](https://github.com/AlanSean/image_compress):基于Electron，Angular，Node，Sharp开发的webp png jpeg图形压缩程序。适用于Windows、MacOS和Linux
 
 ## License
 

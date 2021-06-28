@@ -33,6 +33,11 @@ $ etan start
 
 [AngularCli](https://github.com/angular/angular-cli)
 
+
+## Praxis
+
+[image_compress](https://github.com/AlanSean/image_compress):WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Node，Sharp. Available for Windows, MacOS and Linux
+
 ## License
 
 Etan is [MIT licensed](LICENSE).
