@@ -5,7 +5,11 @@ export class StartCommand extends AbstractCommand {
   public load(program: CommanderStatic) {
     program
       .command('start')
-      .option('-c, --config [path]', 'Path to etan-cli config file.')
+      .option(
+        '-c, --config [path]',
+        'Path to etan-cli.json(default) configuration file.',
+      )
+      .option('-s, --skip', 'Skip typescript compilation,run electron.')
       .option(
         '-w, --watch',
         'Run it in watch mode and reload the Electron program after compilation ',
@@ -15,7 +19,7 @@ export class StartCommand extends AbstractCommand {
         'Run in debug mode (with --inspect flag).',
       )
       .option(
-        '-p, --preserveWatchOutput',
+        '--preserveWatchOutput',
         'Keep the outdated console output in watch mode.',
       )
       .description('Run electron application.')

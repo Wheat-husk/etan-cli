@@ -5,7 +5,12 @@ export class BuildCommand extends AbstractCommand {
   public load(program: CommanderStatic) {
     program
       .command('build')
-      // .option('-s, --skip','Skip the compilation typescript')
+      .option(
+        '-c, --config [path]',
+        'Path to etan-cli.json(default) configuration file.',
+      )
+      .option('-s, --skip', 'Skip typescript compilation, build electron.')
+
       .option(
         '-m, --mac [targetList...]',
         'Build for macOS, accepts target list (see https://goo.gl/5uHuzj)',
@@ -31,12 +36,12 @@ export class BuildCommand extends AbstractCommand {
         '--projectDir, --project [path]',
         'The path to project directory. Defaults to current',
       )
+      // .option(
+      //   '-c, --config [path]',
+      //   "Defaults to 'electron-builder.yml' (or 'json', or 'json5'), see https://goo.gl/YFRJOM",
+      // )
       .option(
-        '-c, --config [path]',
-        "Defaults to 'electron-builder.yml' (or 'json', or 'json5'), see https://goo.gl/YFRJOM",
-      )
-      .option(
-        '-p, --publish [options...]',
+        '--publish [options...]',
         'Publish artifacts (to GitHub Releases), see https://goo.gl/tSFycD [choices: "onTag", "onTagOrDraft", "always",  "never", undefined]',
       )
       .description('Output electron-builder cli build command info')
