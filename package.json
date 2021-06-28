@@ -1,6 +1,6 @@
 {
   "name": "@etanjs/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "electron typecript cli",
   "publishConfig": {
     "access": "public"
@@ -61,7 +61,7 @@
     "commander": "7.2.0",
     "typescript": "4.3.4"
   },
-  "main": "bin/etan.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "bin": "bin"
