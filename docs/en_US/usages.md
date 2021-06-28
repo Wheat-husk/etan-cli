@@ -12,7 +12,8 @@ $ etan start [options]
 
 | Option                     | Description                                            
 | ---------------------------| -------------------------------------------------------------------- 
-| `--config [path]`          | Path to `etan-cli.json(default)` configuration file. <br/>Alias `-c`                 
+| `--config [path]`          | Path to `etan-cli.json(default)` configuration file. <br/>Alias `-c`    
+| `--skip`                   | 'Skip typescript compilation, run electron. <br/> Alias `-s`                  
 | `--watch`                  | Run it in watch mode and reload the 'Electron' program after compilation <br/>Alias `-w`        
 | `--debug [hostport]`       | Run in debug mode (with --inspect flag)                                     
 | `--preserveWatchOutput`    | Keep the outdated console output in watch mode.                              
@@ -32,7 +33,8 @@ $ etan build <name> [options]
 
 | Option                  | Description                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `--config [path]`                 | Defaults to 'electron-builder.yml' (or 'json', or 'json5'), see https://goo.gl/YFRJOM. <br/>Alias `-c` 
+| `--config [path]`                 | Path to `etan-cli.json(default)` configuration file. <br/>Alias `-c`     
+| `--skip`                          | 'Skip typescript compilation, build electron. <br/> Alias `-s`   
 | `--publish [options...]`          | Publish artifacts (to GitHub Releases), see https://goo.gl/tSFycD. <br/>Alias `-p` 
 | `--mac [targetList...]`           | Build for macOS, accepts target list (see https://goo.gl/5uHuzj). <br/>Alias `-m`  
 | `--linux [targetList...]`         | Build for Linux, accepts target list (see https://goo.gl/4vwQad) . <br/>Alias `-l`  

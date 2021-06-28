@@ -12,7 +12,8 @@ $ etan start [options]
 
 | Option                     | Description                                            
 | ---------------------------| -------------------------------------------------------------------- 
-| `--config [path]`          | ` etan-cli.json(默认) `配置文件的路径。<br/>Alias `-c`                 
+| `--config [path]`          | ` etan-cli.json(默认) `配置文件的路径。<br/>Alias `-c`     
+| `--skip`                   | 跳过typescript编译，直接启动electron <br/> Alias `-s`            
 | `--watch`                  | 在watch模式下运行,编译完成后重新加载`electron`程序 <br/>Alias `-w`        
 | `--debug [hostport]`       | 在调试模式下运行(带有——inspect标志)                                  
 | `--preserveWatchOutput`    | 保留watch模式下过时的控制台输出。                             
@@ -32,7 +33,8 @@ $ etan build <name> [options]
 
 | Option                  | Description                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `--config [path]`                 | 默认为`electron-builder.Yml`(或`json`，或`json5`)，查看 https://goo.gl/YFRJOM. <br/>Alias `-c` 
+| `--config [path]`                 | `etan-cli.json(默认) `配置文件的路径 <br/>Alias `-c` 
+| `--skip`                          | 跳过typescript编译，直接build electron <br/> Alias `-s`
 | `--publish [options...]`          | 发布产品(GitHub发布), see https://goo.gl/tSFycD. <br/>Alias `-p` 
 | `--mac [targetList...]`           | 为macOS构建，接受目标列表 (see https://goo.gl/5uHuzj). <br/>Alias `-m`  
 | `--linux [targetList...]`         | 为linux构建，接受目标列表 (see https://goo.gl/4vwQad) . <br/>Alias `-l`  
