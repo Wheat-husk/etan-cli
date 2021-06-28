@@ -1,15 +1,39 @@
 //http://nodejs.cn/api/child_process.html#child_process_child_process_spawn_command_args_options
 import { ChildProcess, spawn } from 'child_process';
 import { join } from 'path';
-import { Options } from '../commands';
+import { CompilerOptions } from 'typescript';
+import { StartOptions } from '../commands';
 import { defaultOutDir } from '../configuration';
-import { BuildAction } from './build.action';
+import { AbstractAction } from './abstract.action';
 
-export class StartAction extends BuildAction {
-  protected hooks(
+export class StartAction extends AbstractAction {
+  public async handle(options: StartOptions) {
+    await this.runComplier(options);
+  }
+  private async runComplier(options: StartOptions) {
+    const { watch, preserveWatchOutput, skip, config } = options;
+    const { tsConfigRootPath, entryFile } = await this.getConfig(config);
+
+    const onSuccess = this.hooks(entryFile, tsConfigRootPath, options);
+    const optionsToExtend: CompilerOptions = {};
+    if (watch) {
+      if (preserveWatchOutput) {
+        optionsToExtend.optionsToExtend = true;
+      }
+      this.watchComplier.run(tsConfigRootPath, optionsToExtend, onSuccess);
+    } else {
+      if (skip) {
+        onSuccess && onSuccess();
+      } else {
+        this.compiler.run(tsConfigRootPath, optionsToExtend, onSuccess);
+      }
+    }
+  }
+
+  private hooks(
     entryPath: string,
     tsConfigRootPath: string,
-    options: Options,
+    options: StartOptions,
   ) {
     let electronProcess: any | ChildProcess | undefined;
     const tsconfig = this.tsLoader.getParsedCommandLine(tsConfigRootPath, {});
@@ -42,10 +66,7 @@ export class StartAction extends BuildAction {
     };
   }
 
-  protected startSpawnChildProcess(
-    entryPath: string,
-    debug?: boolean | string,
-  ) {
+  private startSpawnChildProcess(entryPath: string, debug?: boolean | string) {
     const processArgs = ['electron', entryPath, '--serve'];
 
     //chrome://inspect/#devices

@@ -1,18 +1,17 @@
-import { AbstractAction } from './abstract.action';
 import * as os from 'os';
 import * as chalk from 'chalk';
 import { GlobalCliLoader } from '../cli/cli.loader';
 
-export class InfoAction extends AbstractAction {
-  readonly globalCli = new GlobalCliLoader();
-  readonly node = this.globalCli.load('node');
-  readonly npm = this.globalCli.load('npm');
-  readonly yarn = this.globalCli.load('yarn');
+export class InfoAction {
+  private readonly globalCli = new GlobalCliLoader();
+  private readonly node = this.globalCli.load('node');
+  private readonly npm = this.globalCli.load('npm');
+  private readonly yarn = this.globalCli.load('yarn');
   public async handle() {
     await this.systemInfo();
     this.cliInfo();
   }
-  protected async systemInfo() {
+  private async systemInfo() {
     const nodeV = await this.node.v();
     const yarnV = await this.yarn.v();
     const npmV = await this.npm.v();
@@ -24,7 +23,7 @@ export class InfoAction extends AbstractAction {
     console.info('Yarn Version   :', chalk.blue(yarnV), '\n');
   }
 
-  protected cliInfo() {
+  private cliInfo() {
     console.info(chalk.green('[Etan CLI]'), '\n');
     console.info(
       'Etan CLI Version :',
