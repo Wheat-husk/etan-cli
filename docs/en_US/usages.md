@@ -13,7 +13,7 @@ $ etan start [options]
 | Option                     | Description                                            
 | ---------------------------| -------------------------------------------------------------------- 
 | `--config [path]`          | Path to `etan-cli.json(default)` configuration file. <br/>Alias `-c`    
-| `--skip`                   | 'Skip typescript compilation, run electron. <br/> Alias `-s`                  
+| `--skip`                   | 'Skip typescript compilation, run electron.(Should `-s,--skip` is invalid when `-w,--watch`) <br/> Alias `-s`                  
 | `--watch`                  | Run it in watch mode and reload the 'Electron' program after compilation <br/>Alias `-w`        
 | `--debug [hostport]`       | Run in debug mode (with --inspect flag)                                     
 | `--preserveWatchOutput`    | Keep the outdated console output in watch mode.                              

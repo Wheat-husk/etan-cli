@@ -34,7 +34,7 @@ $ etan build <name> [options]
 | Option                  | Description                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `--config [path]`                 | `etan-cli.json(默认) `配置文件的路径 <br/>Alias `-c` 
-| `--skip`                          | 跳过typescript编译，直接build electron <br/> Alias `-s`
+| `--skip`                          | 跳过typescript编译，直接build electron (当`-w，——watch`时`-s，——skip`无效)<br/> Alias `-s`
 | `--publish [options...]`          | 发布产品(GitHub发布), see https://goo.gl/tSFycD. <br/>Alias `-p` 
 | `--mac [targetList...]`           | 为macOS构建，接受目标列表 (see https://goo.gl/5uHuzj). <br/>Alias `-m`  
 | `--linux [targetList...]`         | 为linux构建，接受目标列表 (see https://goo.gl/4vwQad) . <br/>Alias `-l`  

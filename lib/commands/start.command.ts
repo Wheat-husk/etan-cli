@@ -9,7 +9,10 @@ export class StartCommand extends AbstractCommand {
         '-c, --config [path]',
         'Path to etan-cli.json(default) configuration file.',
       )
-      .option('-s, --skip', 'Skip typescript compilation,run electron.')
+      .option(
+        '-s, --skip',
+        'Skip typescript compilation,run electron.(Should `-s,--skip` is invalid when `-w,--watch`)',
+      )
       .option(
         '-w, --watch',
         'Run it in watch mode and reload the Electron program after compilation ',
