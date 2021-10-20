@@ -36,12 +36,12 @@ export class StartAction extends AbstractAction {
     options: StartOptions,
   ) {
     let electronProcess: any | ChildProcess | undefined;
-    const tsconfig = this.tsLoader.getParsedCommandLine(tsConfigRootPath, {});
+    // const tsconfig = this.tsLoader.getParsedCommandLine(tsConfigRootPath, {});
 
-    const outputFile = join(
-      tsconfig.options.outDir || defaultOutDir,
-      `${entryPath}.js`,
-    );
+    // const outputFile = tsconfig.options.outDir || defaultOutDir || join(
+    //   tsconfig.options.outDir || defaultOutDir,
+    //   `${entryPath}.js`,
+    // );
 
     process.on(
       'exit',
@@ -51,23 +51,17 @@ export class StartAction extends AbstractAction {
       if (electronProcess) {
         electronProcess.removeAllListeners('exit');
         electronProcess.on('exit', () => {
-          electronProcess = this.startSpawnChildProcess(
-            outputFile,
-            options.debug,
-          );
+          electronProcess = this.startSpawnChildProcess(options.debug);
         });
         this.killLoader.kill(electronProcess.pid);
       } else {
-        electronProcess = this.startSpawnChildProcess(
-          outputFile,
-          options.debug,
-        );
+        electronProcess = this.startSpawnChildProcess(options.debug);
       }
     };
   }
 
-  private startSpawnChildProcess(entryPath: string, debug?: boolean | string) {
-    const processArgs = ['electron', entryPath, '--serve'];
+  private startSpawnChildProcess(debug?: boolean | string) {
+    const processArgs = ['electron', '.', '--serve'];
 
     //chrome://inspect/#devices
     //https://nodejs.org/en/docs/guides/debugging-getting-started/

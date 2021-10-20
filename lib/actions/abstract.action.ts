@@ -15,7 +15,7 @@ export abstract class AbstractAction {
   protected readonly compiler = new Compiler(this.tsLoader);
   protected readonly watchComplier = new WatchComplier(this.tsLoader);
 
-  public abstract handle(options: BuildOptions | StartOptions): Promise<void>;
+  public abstract handle(options?: BuildOptions | StartOptions): Promise<void>;
 
   protected async getConfig(configPath?: string) {
     const tsBinary = this.tsLoader.load();

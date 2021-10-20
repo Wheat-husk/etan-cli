@@ -1,8 +1,9 @@
 import * as os from 'os';
 import * as chalk from 'chalk';
 import { GlobalCliLoader } from '../cli/cli.loader';
+import { AbstractAction } from './abstract.action';
 
-export class InfoAction {
+export class InfoAction extends AbstractAction {
   private readonly globalCli = new GlobalCliLoader();
   private readonly node = this.globalCli.load('node');
   private readonly npm = this.globalCli.load('npm');
