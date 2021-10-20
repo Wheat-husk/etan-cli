@@ -19,7 +19,8 @@
     "pretty-quick": "pretty-quick --staged",
     "prettier": "prettier -c --write '**/*.ts'",
     "prepare": "husky install",
-    "release": "release-it"
+    "release": "release-it",
+    "publish": "npm publish --access=public"
   },
   "repository": {
     "type": "git",
