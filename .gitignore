@@ -5,7 +5,7 @@ node_modules/
 *.map
 
 # output
-lib/
+lib
 
 # configuration
 /.vscode
