@@ -52,8 +52,8 @@ export interface BuildOptions extends Options {
 }
 
 export interface StartOptions extends Options {
-  watch: boolean;
-  debug: boolean;
+  watch?: boolean;
+  debug?: boolean;
   //https://www.tslang.cn/docs/handbook/compiler-options.html
-  preserveWatchOutput: boolean;
+  preserveWatchOutput?: boolean;
 }

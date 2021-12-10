@@ -5,9 +5,7 @@ node_modules/
 *.map
 
 # output
-lib/**/*.js
-bin/**/*.d.ts
-lib/**/*.d.ts
+lib/
 
 # configuration
 /.vscode
@@ -16,4 +14,3 @@ lib/**/*.d.ts
 /sample
 
 yarn.lock
-src/

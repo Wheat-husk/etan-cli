@@ -9,6 +9,7 @@
 .github/
 docs/
 test/
+src/
 node_modules/
 jest.config.js
 commitlint.config.js
@@ -16,7 +17,6 @@ commitlint.config.js
 # source
 **/*.ts
 *.ts
-
 
 # definitions
 !**/*.d.ts

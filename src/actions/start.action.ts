@@ -1,15 +1,14 @@
 //http://nodejs.cn/api/child_process.html#child_process_child_process_spawn_command_args_options
 import { ChildProcess, spawn } from 'child_process';
-import { join } from 'path';
 import { CompilerOptions } from 'typescript';
 import { StartOptions } from '../commands';
-import { defaultOutDir } from '../configuration';
 import { AbstractAction } from './abstract.action';
 
 export class StartAction extends AbstractAction {
   public async handle(options: StartOptions) {
     await this.runComplier(options);
   }
+
   private async runComplier(options: StartOptions) {
     const { watch, preserveWatchOutput, skip, config } = options;
     const { tsConfigRootPath, entryFile } = await this.getConfig(config);

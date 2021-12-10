@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "declaration": true,
     "lib": ["es2017"],
     "module": "commonjs",
@@ -9,6 +10,5 @@
     "strict": true,
     "outDir": "./dist"
   },
-  "include": ["bin", "lib"],
-  "exclude": ["node_modules", "e2e"]
+  "include": ["**/*.ts"]
 }

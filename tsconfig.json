@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
     "declaration": true,
     "lib": ["es2017"],
     "module": "commonjs",
@@ -8,6 +9,6 @@
     "sourceMap": false,
     "strict": true
   },
-  "include": ["bin", "lib"],
+  "include": ["bin", "src"],
   "exclude": ["node_modules", "e2e"]
 }

@@ -1,11 +1,7 @@
 #!/usr/bin/env node
-
 import * as commander from 'commander';
 import { CommanderStatic } from 'commander';
-// const tsConfigFileName = 'test-cli.json';
-// import { StartAction } from '../lib/actions/index';
-
-import { CommandLoader } from '../lib/commands';
+import { CommandLoader } from './commands';
 
 function bootstrap() {
   const program: CommanderStatic = commander;
